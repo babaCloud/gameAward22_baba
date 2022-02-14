@@ -24,6 +24,8 @@ public class PlayerControllwe : MonoBehaviour
     private Vector2 axis;
 
     public float speed;
+    public float gravity;
+    private float g;
     private TangentContolloer tan;
 
     void Start()
@@ -72,7 +74,15 @@ public class PlayerControllwe : MonoBehaviour
 
     void PlayerMove()
     {
-        //playerObj.transform.position += new v
+        playerObj.transform.position += new Vector3(transform.right.x * speed, transform.right.y * (speed + g), 0);
+        if (transform.right.y > 0) g -= gravity;
+        else g += gravity;
+
+        if (speed < g)
+        {
+            Vector2 gravityAxis = new Vector2(1,transform.position.y);
+            transform.RotateAround(playerObj.transform.position, gravityAxis, 180.0f);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -82,7 +92,7 @@ public class PlayerControllwe : MonoBehaviour
         {
             axis=tan.Line(playerObj.transform.position,collision.gameObject);
             transform.RotateAround(playerObj.transform.position, axis, 180.0f);
-           
+            g = 0;
         }
     }
 
