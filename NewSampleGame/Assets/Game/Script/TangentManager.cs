@@ -7,6 +7,12 @@ public class TangentManager : MonoBehaviour
     private Vector2 startPos;
     private Vector2 endPos;
 
+    /// <summary>
+    /// 接線
+    /// </summary>
+    /// <param name="setten">接点</param>
+    /// <param name="circle">当たったオブジェクト(Player)</param>
+    /// <returns></returns>
     public Vector2 Line(Vector2 setten, Vector2 circle)
     {
         //中心から接点までの距離

@@ -8,6 +8,10 @@ TagManager:
   - none
   - kugi
   - circle
+  - right
+  - left
+  - down
+  - up
   layers:
   - Default
   - TransparentFX
