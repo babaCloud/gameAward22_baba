@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 
 public class BallController : MonoBehaviour
@@ -8,29 +9,56 @@ public class BallController : MonoBehaviour
     [SerializeField]
     private GameObject playerObj;
     [SerializeField]
+    private GameObject arrowObj;
+    [SerializeField]
     private TangentManager tangentObj;
     [SerializeField]
     private EdgeManager edgeObj;
+    [SerializeField]
+    private GameObject line_debug;
+
+    [SerializeField]
+    private GameObject kugi;
+    [SerializeField]
+    private GameObject balloon;
+    [SerializeField]
+    private GameObject cushion;
+    [SerializeField]
+    private GameObject plan;
 
     private bool isStart = false;//クリックしたらスタート
     private Vector2 axis;//反射するときに使う軸
 
     public float speed;//1フレームあたり何ｍ動くか
+
     public float gravity;//重力加速度
     private float g;//実際の重力
 
+    public float normal_bounciness;//普通の反射係数
+    public float balloon_bounciness;//すごく跳ね返る反射係数
+    public float cushin_bounciness;//衝撃吸収の反射係数
+
     private Vector2[] position;
+    private Vector2 startPos;
+
+    #region デバッグ用変数
+    private GameObject obj;
+    private LineRenderer line;
+    private int vertexIndex;
+    private Vector3[] vertex= {new Vector3(0,0,0) };
+    #endregion
 
     void Start()
     {
         position = new Vector2[2];
         gravity /= 1000;
+        startPos = playerObj.transform.position;
     }
 
 
     void Update()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             isStart = true;
         }
@@ -39,9 +67,75 @@ public class BallController : MonoBehaviour
         {
             PlayerMove();
         }
-       
+
+        PlayerArrow();
+
+        Debug_TypeSwitching();
+        Debug_Line();
     }
 
+
+    void Debug_TypeSwitching()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            kugi.SetActive(true);
+            balloon.SetActive(false);
+            cushion.SetActive(false);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            kugi.SetActive(false);
+            balloon.SetActive(true);
+            cushion.SetActive(false);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            kugi.SetActive(false);
+            balloon.SetActive(false);
+            cushion.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            playerObj.transform.position = startPos;
+        }
+    }
+
+    void Debug_Line()
+    {        
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            obj = Instantiate(line_debug);
+            line=line_debug.GetComponent<LineRenderer>();
+            vertexIndex = 0;
+            vertex[0] = startPos;
+        }
+        if (isStart)
+        {
+            vertexIndex++;
+            Array.Resize(ref vertex, vertexIndex+1);
+            vertex[vertexIndex] = playerObj.transform.position;
+            obj.GetComponent<LineRenderer>().SetVertexCount(vertexIndex);
+            obj.GetComponent<LineRenderer>().SetPositions(vertex);
+        }
+        
+    }
+
+    void PlayerArrow()
+    {
+        if (!isStart)
+        {
+            arrowObj.SetActive(true);
+            playerObj.transform.localEulerAngles -= new Vector3(0, 0, 0.1f);
+        }
+        else
+        {
+            arrowObj.SetActive(false);
+        }
+    }
 
     /// <summary>
     /// ballの動き
@@ -61,8 +155,9 @@ public class BallController : MonoBehaviour
     /// ballの反射(向き変えるだけ)
     /// </summary>
     void PlayerReflection()
-    {              
-        transform.RotateAround(playerObj.transform.position, axis, 180.0f);//接線を軸に回転
+    {
+        transform.right = position[1] - position[0];//入射角=反射角
+        transform.RotateAround(playerObj.transform.position, axis, 180.0f);//接線を軸に回転  
         g = 0;
     }
 
@@ -70,37 +165,49 @@ public class BallController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //球
-        if (collision.gameObject.tag == "circle")
+        if (collision.gameObject.tag == kugi.gameObject.tag)
         {
-            transform.right = collision.gameObject.transform.position - this.gameObject.transform.position;//当たったオブジェクトの方向向く
             axis = tangentObj.Line(playerObj.transform.position, collision.gameObject.gameObject.transform.position);//接線の生成
             PlayerReflection();
+            g = normal_bounciness - speed;
+        }
+        if (collision.gameObject.tag == balloon.gameObject.tag)
+        {
+            axis = tangentObj.Line(playerObj.transform.position, collision.gameObject.gameObject.transform.position);//接線の生成
+            PlayerReflection();
+            g = balloon_bounciness - speed;
+        }
+        if (collision.gameObject.tag ==cushion.gameObject.tag)
+        {
+            axis = tangentObj.Line(playerObj.transform.position, collision.gameObject.gameObject.transform.position);//接線の生成
+            PlayerReflection();
+            g = cushin_bounciness - speed;
         }
 
         //面
-        if(collision.gameObject.tag == "up")
-        {
-            transform.right = position[1] - position[0];
+        if (collision.gameObject.tag == "up")
+        {           
             axis = edgeObj.UpWorldPosition(collision.transform.parent.gameObject);
             PlayerReflection();
+
         }
         if (collision.gameObject.tag == "down")
         {
-            transform.right = position[1] - position[0];
             axis = edgeObj.DownWorldPosition(collision.transform.parent.gameObject);
             PlayerReflection();
+
         }
         if (collision.gameObject.tag == "left")
         {
-            transform.right = position[1] - position[0];
             axis = edgeObj.LeftWorldPosition(collision.transform.parent.gameObject);
             PlayerReflection();
+
         }
         if (collision.gameObject.tag == "right")
         {
-            transform.right = position[1] - position[0];
             axis = edgeObj.RightWorldPosition(collision.transform.parent.gameObject);
             PlayerReflection();
+
         }
 
     }
