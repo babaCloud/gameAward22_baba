@@ -30,9 +30,11 @@ public class BallController : MonoBehaviour
     private Vector2 axis;//反射するときに使う軸
 
     public float speed;//1フレームあたり何ｍ動くか
+    private float s;
 
     public float gravity;//重力加速度
     private float g;//実際の重力
+    private float speedX;
 
     public float normal_bounciness;//普通の反射係数
     public float balloon_bounciness;//すごく跳ね返る反射係数
@@ -46,6 +48,7 @@ public class BallController : MonoBehaviour
     private LineRenderer line;
     private int vertexIndex;
     private Vector3[] vertex= {new Vector3(0,0,0) };
+    private float time;
     #endregion
 
     void Start()
@@ -56,7 +59,7 @@ public class BallController : MonoBehaviour
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -72,29 +75,30 @@ public class BallController : MonoBehaviour
 
         Debug_TypeSwitching();
         Debug_Line();
+
     }
 
 
     void Debug_TypeSwitching()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            kugi.SetActive(true);
-            balloon.SetActive(false);
-            cushion.SetActive(false);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            kugi.SetActive(false);
-            balloon.SetActive(true);
-            cushion.SetActive(false);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            kugi.SetActive(false);
-            balloon.SetActive(false);
-            cushion.SetActive(true);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    kugi.SetActive(true);
+        //    balloon.SetActive(false);
+        //    cushion.SetActive(false);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    kugi.SetActive(false);
+        //    balloon.SetActive(true);
+        //    cushion.SetActive(false);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    kugi.SetActive(false);
+        //    balloon.SetActive(false);
+        //    cushion.SetActive(true);
+        //}
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
@@ -117,7 +121,7 @@ public class BallController : MonoBehaviour
         {
             vertexIndex++;
             Array.Resize(ref vertex, vertexIndex+1);
-            vertex[vertexIndex] = playerObj.transform.position;
+            vertex[vertexIndex] = playerObj.transform.position;;
             obj.GetComponent<LineRenderer>().SetVertexCount(vertexIndex);
             obj.GetComponent<LineRenderer>().SetPositions(vertex);
         }
@@ -143,8 +147,10 @@ public class BallController : MonoBehaviour
     void PlayerMove()
     {
         position[0] = position[1];
+      
+        playerObj.transform.position += 
+            new Vector3(transform.right.x * speed, transform.right.y * (speed + g), 0);
 
-        playerObj.transform.position += new Vector3(transform.right.x * speed, transform.right.y * (speed + g), 0);
         if (transform.right.y > 0) g -= gravity;//yが正なら減速
         else g += gravity;//負なら加速
 
@@ -182,6 +188,7 @@ public class BallController : MonoBehaviour
             axis = tangentObj.Line(playerObj.transform.position, collision.gameObject.gameObject.transform.position);//接線の生成
             PlayerReflection();
             g = cushin_bounciness - speed;
+            transform.right = new Vector2(0,transform.right.y) ;
         }
 
         //面
