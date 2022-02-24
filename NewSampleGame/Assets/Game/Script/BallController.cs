@@ -26,6 +26,11 @@ public class BallController : MonoBehaviour
     [SerializeField]
     private GameObject plan;
 
+    [SerializeField]
+    private AudioSource SE;
+    [SerializeField]
+    private AudioClip normalBouncinessSE;
+
     private bool isStart = false;//クリックしたらスタート
     private Vector2 axis;//反射するときに使う軸
 
