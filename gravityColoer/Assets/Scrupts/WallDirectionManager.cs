@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WallDirectionManager : MonoBehaviour
 {
+    [System.Serializable]
     public struct Wall
     {
         public Vector2 pos;
@@ -17,18 +18,19 @@ public class WallDirectionManager : MonoBehaviour
     }
     private int colorNum;
 
-    public string[] matName;
+    [SerializeField]
+    private MapData mapData;
 
     private void Awake()
     {
-        for(int i = 0; i < matName.Length; i++)
+        for(int i = 0; i < mapData.wallMat.Length; i++)
         {
-            if (this.gameObject.GetComponent<MeshRenderer>().material.name == matName[i])
+            if (this.gameObject.GetComponent<MeshRenderer>().material.name == mapData.wallMat[i].name+ " (Instance)")
             {
-                SetColorNum(i);
+                SetColorNum(i);                
             }
         }
-        
+
     }
 
     /// <summary>
@@ -46,6 +48,9 @@ public class WallDirectionManager : MonoBehaviour
     /// <returns></returns>
     public Wall GetWallDirectionColor()
     {
-        return new Wall(transform.position, colorNum);
+        Vector2 pos = transform.position.normalized;
+        if (1 != Mathf.Abs(pos.x)) pos.x = 0;
+        if (1 != Mathf.Abs(pos.y)) pos.y = 0;
+        return new Wall(pos, colorNum);
     }
 }

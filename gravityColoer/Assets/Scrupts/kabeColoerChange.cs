@@ -10,24 +10,22 @@ public class kabeColoerChange : MonoBehaviour
     [SerializeField]
     private GameObject[] kabe;
 
-    [SerializeField]
-    private Material[] mat;
-
     private GameObject clickObj;
 
-    private bool isLeftRotation = false;
-    private bool isRightRotation = false;
+    public static bool isLeftRotation = false;
+    public static bool isRightRotation = false;
     public float rotationSpeed;
     private float angle;
 
-    private WallDirectionManager.Wall[] wallData=new WallDirectionManager.Wall[4];
+    [SerializeField]
+    private MapData mapData;
 
     void Start()
     {      
         for(int i = 0; i < kabe.Length; i++)
         {
-            wallData[i] = kabe[i].GetComponent<WallDirectionManager>().GetWallDirectionColor();
-            Debug.Log(kabe[i].name + wallData[i].colorNum);
+            mapData.wallData[i] = kabe[i].GetComponent<WallDirectionManager>().GetWallDirectionColor();
+            
         }
     }
 
@@ -62,7 +60,7 @@ public class kabeColoerChange : MonoBehaviour
     }
 
     /// <summary>
-    /// クリックしたオブジェクトのタイプを変える
+    /// クリックしたオブジェクトのタイプを変え、そのデータを保存
     /// </summary>
     void ClickToChange()
     {
@@ -71,25 +69,24 @@ public class kabeColoerChange : MonoBehaviour
             if (clickObj == kabe[i])
             {
                 Material nowMat = kabe[i].GetComponent<MeshRenderer>().material;
-                WallDirectionManager wallColor = new WallDirectionManager();
 
-                for (int j = 0; j < mat.Length; j++)
+                for (int j = 0; j < mapData.wallMat.Length; j++)
                 {
-                    if(nowMat.name == mat[mat.Length-1].name + " (Instance)")
+                    if(nowMat.name == mapData.wallMat[mapData.wallMat.Length-1].name + " (Instance)")
                     {
-                        kabe[i].GetComponent<MeshRenderer>().material = mat[0];
-                        wallColor=kabe[i].GetComponent<WallDirectionManager>();
-                        wallColor.SetColorNum(0);
+                        kabe[i].GetComponent<MeshRenderer>().material = mapData.wallMat[0];
+                        kabe[i].GetComponent<WallDirectionManager>().SetColorNum(0);
                         break;
                     }
-                    else if (nowMat.name == mat[j].name+ " (Instance)")
+                    else if (nowMat.name == mapData.wallMat[j].name+ " (Instance)")
                     {
-                        kabe[i].GetComponent<MeshRenderer>().material = mat[j+1];
-                        wallColor = kabe[i].GetComponent<WallDirectionManager>();
-                        wallColor.SetColorNum(j+1);
+                        kabe[i].GetComponent<MeshRenderer>().material = mapData.wallMat[j+1];
+                        kabe[i].GetComponent<WallDirectionManager>().SetColorNum(j+1);
                         break;
                     }                   
                 }
+
+                mapData.wallData[i] = kabe[i].GetComponent<WallDirectionManager>().GetWallDirectionColor();
             }
         }
     }
@@ -119,11 +116,11 @@ public class kabeColoerChange : MonoBehaviour
         if (isRightRotation)
         {
             map.transform.localEulerAngles -= new Vector3(0, 0, rotationSpeed);
-            angle += rotationSpeed;
+            angle -= rotationSpeed;
         }
 
         //回転ストップ＆誤差直し
-        if (angle > 90.0f)
+        if (Mathf.Abs(angle) > 90.0f)
         {
             if (isLeftRotation) map.transform.localEulerAngles = new Vector3(0, 0, (float)Math.Round(map.transform.localEulerAngles.z, MidpointRounding.AwayFromZero));
             if (isRightRotation) map.transform.localEulerAngles = new Vector3(0, 0, (float)Math.Round(map.transform.localEulerAngles.z, MidpointRounding.AwayFromZero));
@@ -132,11 +129,13 @@ public class kabeColoerChange : MonoBehaviour
             isLeftRotation = false;
             angle = 0.0f;
 
+            //壁のデータ(色と位置を入れる)
             for (int i = 0; i < kabe.Length; i++)
             {
-                wallData[i] = kabe[i].GetComponent<WallDirectionManager>().GetWallDirectionColor();
-
+                mapData.wallData[i] = kabe[i].GetComponent<WallDirectionManager>().GetWallDirectionColor();
             }
         }
+
+        mapData.mapAngleMoveAmount = angle;
     }
 }
