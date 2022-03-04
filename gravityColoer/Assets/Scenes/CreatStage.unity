@@ -738,6 +738,7 @@ MonoBehaviour:
   gameData: {fileID: 11400000, guid: 3d86f51c1c2318242a0459bfb1d043cb, type: 2}
   stageData: {fileID: 11400000, guid: 288fb53b8bdf9974a85ed5ed6224ef2b, type: 2}
   dw: {fileID: 362828284}
+  initObj: {fileID: 8532935448592492130, guid: 7f0af7bff195a284ab24023db356aef7, type: 3}
 --- !u!1 &264482261
 GameObject:
   m_ObjectHideFlags: 0

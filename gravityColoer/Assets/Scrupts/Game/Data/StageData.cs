@@ -11,14 +11,10 @@ public class StageData : ScriptableObject
     [System.Serializable]
     public struct WallData
     {
-        public Vector2 wallPos;
-        public Vector2 wallScale;
         public GameObject wallObj;
 
         public WallData(Vector2 wallPos, Vector2 wallScale,GameObject wallObj)
         {
-            this.wallPos = wallPos;
-            this.wallScale = wallScale;
             this.wallObj = wallObj;
         }
     }

@@ -19,11 +19,12 @@ public class CubeCreatManager : MonoBehaviour
     private int cubeNum;
     private GameObject clickObj;
 
+    public GameObject initObj;
+
     private void Start()
     {
-        //既存のキューブ取得　リストにぶち込む
-        //リスト分生成
 
+        LoadCubeData();
     }
 
     private void Update()
@@ -126,8 +127,9 @@ public class CubeCreatManager : MonoBehaviour
     {
         cubeNum++;
         cube.GetComponent<MeshRenderer>().material = gameData.wallMat[cubeMatNum];
-        cube.name = "cube" + cubeNum.ToString();
         GameObject obj = Instantiate(cube);
+        string matName = obj.GetComponent<MeshRenderer>().material.name.Replace(" (Instance)", "");
+        obj.name = matName + " cube " + cubeNum;
         cubeList.Add(obj);
     }
 
@@ -144,6 +146,8 @@ public class CubeCreatManager : MonoBehaviour
     /// </summary>
     public void SaveCubeData()
     {
+        Array.Resize<StageData.CubeData>( ref stageData.cubeData, cubeList.Count);
+
         for(int i = 0; i < cubeList.Count; i++)
         {
             //位置
@@ -159,5 +163,24 @@ public class CubeCreatManager : MonoBehaviour
             }
             
         }
+    }
+
+    /// <summary>
+    /// データのロード
+    /// </summary>
+    void LoadCubeData()
+    {
+        for(int i = 0; i < stageData.cubeData.Length; i++)
+        {
+            var obj = Instantiate(initObj);
+            obj.transform.position = stageData.cubeData[i].cubePos;
+            obj.GetComponent<MeshRenderer>().material= stageData.cubeData[i].cubeMat;
+            string matName = obj.GetComponent<MeshRenderer>().material.name.Replace(" (Instance)", "");
+            obj.name = matName + " cube " + cubeNum;
+            cubeNum++;
+            cubeList.Add(obj);
+        }
+
+
     }
 }

@@ -13,38 +13,14 @@ MonoBehaviour:
   m_Name: test 1
   m_EditorClassIdentifier: 
   stageName: test1
-  stageScale: 12
+  stageScale: 9
   wallData:
-  - wallPos: {x: 0, y: 6.25}
-    wallScale: {x: 0, y: 6.25}
-    wallObj: {fileID: 8209879066202542781, guid: c69095bfa6420914f81625c5a259820b, type: 3}
-  - wallPos: {x: 0, y: -6.25}
-    wallScale: {x: 0, y: -6.25}
-    wallObj: {fileID: 3637470161201005429, guid: b4a83df02c9570f47b2392e1ffcea522, type: 3}
-  - wallPos: {x: 6.25, y: 0}
-    wallScale: {x: 6.25, y: 0}
-    wallObj: {fileID: 8118160699664104249, guid: 56862a4ab3f5a9e4b886a47b3a1f13e1, type: 3}
-  - wallPos: {x: -6.25, y: 0}
-    wallScale: {x: -6.25, y: 0}
-    wallObj: {fileID: 6946113179921952866, guid: cd522bf71aadcef4cb26839c4ab20738, type: 3}
+  - wallObj: {fileID: 8209879066202542781, guid: c69095bfa6420914f81625c5a259820b, type: 3}
+  - wallObj: {fileID: 3637470161201005429, guid: b4a83df02c9570f47b2392e1ffcea522, type: 3}
+  - wallObj: {fileID: 8118160699664104249, guid: 56862a4ab3f5a9e4b886a47b3a1f13e1, type: 3}
+  - wallObj: {fileID: 6946113179921952866, guid: cd522bf71aadcef4cb26839c4ab20738, type: 3}
   cubeData:
-  - cubePos: {x: 0, y: 0}
-    cubeMat: {fileID: 0}
-  - cubePos: {x: 0, y: 0}
-    cubeMat: {fileID: 0}
-  - cubePos: {x: 0, y: 0}
-    cubeMat: {fileID: 0}
-  - cubePos: {x: 0, y: 0}
-    cubeMat: {fileID: 0}
-  - cubePos: {x: 0, y: 0}
-    cubeMat: {fileID: 0}
-  - cubePos: {x: 0, y: 0}
-    cubeMat: {fileID: 0}
-  - cubePos: {x: 0, y: 0}
-    cubeMat: {fileID: 0}
-  - cubePos: {x: 0, y: 0}
-    cubeMat: {fileID: 0}
-  - cubePos: {x: 0, y: 0}
-    cubeMat: {fileID: 0}
-  - cubePos: {x: 0, y: 0}
-    cubeMat: {fileID: 0}
+  - cubePos: {x: 4, y: 0}
+    cubeMat: {fileID: 2100000, guid: 8afa592605267af49b01d4af35edbe00, type: 2}
+  - cubePos: {x: -1, y: -1}
+    cubeMat: {fileID: 2100000, guid: 6dbd90ebaa1bb614e963a5ffa41fd4ba, type: 2}

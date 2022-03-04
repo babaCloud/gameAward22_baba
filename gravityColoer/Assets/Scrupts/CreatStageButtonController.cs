@@ -63,11 +63,6 @@ public class CreatStageButtonController : MonoBehaviour
         stageData.wallData[1].wallObj = downWallObj;
         stageData.wallData[2].wallObj = rightWallObj;
         stageData.wallData[3].wallObj = leftWallObj;
-        for (int i = 0; i < stageData.wallData.Length; i++)
-        {
-            stageData.wallData[i].wallPos = stageData.wallData[i].wallObj.transform.position;
-            stageData.wallData[i].wallScale = stageData.wallData[i].wallObj.transform.position;
-        }
 
         //¶¬
         if (!isInstanceWall)
