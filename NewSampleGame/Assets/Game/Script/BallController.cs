@@ -76,7 +76,7 @@ public class BallController : MonoBehaviour
             PlayerMove();
         }
 
-        PlayerArrow();
+        //PlayerArrow();
 
         Debug_TypeSwitching();
         Debug_Line();

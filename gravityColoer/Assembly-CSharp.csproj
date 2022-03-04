@@ -53,10 +53,15 @@
     <UnityVersion>2020.3.27f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scrupts\WallDirectionManager.cs" />
-    <Compile Include="Assets\Scrupts\kabeColoerChange.cs" />
-    <Compile Include="Assets\Scrupts\CubeController.cs" />
-    <Compile Include="Assets\Scrupts\MapData.cs" />
+    <Compile Include="Assets\Scrupts\Game\WallDirectionManager.cs" />
+    <Compile Include="Assets\Scrupts\Game\CubeController.cs" />
+    <Compile Include="Assets\Scrupts\CreatStageButtonController.cs" />
+    <Compile Include="Assets\Scrupts\Game\kabeColoerChange.cs" />
+    <Compile Include="Assets\Scrupts\Game\Data\StageData.cs" />
+    <Compile Include="Assets\Scrupts\Game\Data\GameData.cs" />
+    <Compile Include="Assets\Scrupts\Creat\WallCreatManager.cs" />
+    <Compile Include="Assets\Scrupts\Creat\CubeCreatManager.cs" />
+    <Compile Include="Assets\Scrupts\Creat\CreatStageManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

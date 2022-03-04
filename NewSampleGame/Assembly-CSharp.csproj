@@ -54,9 +54,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Game\Script\BallController.cs" />
+    <Compile Include="Assets\Game\Script\EdgeManager.cs" />
     <Compile Include="Assets\Game\Script\TangentManager.cs" />
     <Compile Include="Assets\mock\PlayerCon.cs" />
-    <Compile Include="Assets\Game\Script\EdgeManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
