@@ -13,7 +13,7 @@ public class StageData : ScriptableObject
     {
         public GameObject wallObj;
 
-        public WallData(Vector2 wallPos, Vector2 wallScale,GameObject wallObj)
+        public WallData(GameObject wallObj)
         {
             this.wallObj = wallObj;
         }

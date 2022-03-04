@@ -22,8 +22,6 @@ public class WallCreatManager : MonoBehaviour
     private bool isInstanceWall;//•Çƒf[ƒ^‚ª‘¶İ‚µ‚Ä‚¢‚é‚©
 
 
-    private int cubeMatNum;
-
     private void Start()
     {
         isInstanceWall = false;
