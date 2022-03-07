@@ -5,8 +5,6 @@ using UnityEngine;
 public class StageManager : MonoBehaviour
 {
     [SerializeField]
-    private StageData stageData;
-    [SerializeField]
     private GameData gameData;
     [SerializeField]
     private GameObject cubeObj;
@@ -26,9 +24,9 @@ public class StageManager : MonoBehaviour
     /// </summary>
     void SetGameData()
     {
-        for(int i = 0; i < stageData.wallData.Length; i++)
+        for(int i = 0; i < gameData.stageData.wallData.Length; i++)
         {
-            gameData.wallData[i].pos = stageData.wallData[i].wallObj.transform.position;
+            gameData.wallData[i].pos = gameData.stageData.wallData[i].wallObj.transform.position;
             gameData.wallData[i].colorNum = 0;
             
         }
@@ -40,12 +38,12 @@ public class StageManager : MonoBehaviour
     /// </summary>
     void InstanceWall()
     {
-        for(int i = 0; i < stageData.wallData.Length; i++)
+        for(int i = 0; i < gameData.stageData.wallData.Length; i++)
         {
-            var wall= Instantiate(stageData.wallData[i].wallObj);
+            var wall= Instantiate(gameData.stageData.wallData[i].wallObj);
             wall.transform.parent = map.transform;
             wall.AddComponent<WallDirectionManager>();
-            wall.name = stageData.wallData[i].wallObj.name;
+            wall.name = gameData.stageData.wallData[i].wallObj.name;
         }
     }
 
@@ -56,24 +54,15 @@ public class StageManager : MonoBehaviour
     {
         int num = 0;
 
-        for (int i = 0; i < stageData.cubeData.Length; i++)
+        for (int i = 0; i < gameData.stageData.cubeData.Length; i++)
         {
             var cube = Instantiate(cubeObj);
-            cube.transform.position = stageData.cubeData[i].cubePos;
-            cube.GetComponent<MeshRenderer>().material = stageData.cubeData[i].cubeMat;
+            cube.transform.position = gameData.stageData.cubeData[i].cubePos;
+            cube.GetComponent<MeshRenderer>().material = gameData.stageData.cubeData[i].cubeMat;
             string matName = cube.GetComponent<MeshRenderer>().material.name.Replace(" (Instance)", "");
             cube.name = matName + " cube " + num;
             num++;
         }
-    }
-
-    /// <summary>
-    /// ステージのデータ共有
-    /// </summary>
-    /// <returns></returns>
-    public StageData GetStageData()
-    {
-        return stageData;
     }
 
     /// <summary>

@@ -22,7 +22,7 @@ public class kabeColoerChange : MonoBehaviour
 
     void Start()
     {
-        stageData = stageManager.GetStageData();
+        stageData = stageManager.GetGameData().stageData;
         mapData = stageManager.GetGameData();
 
         //�ǎ擾

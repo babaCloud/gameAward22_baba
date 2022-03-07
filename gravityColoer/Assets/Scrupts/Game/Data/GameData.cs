@@ -10,5 +10,5 @@ public class GameData : ScriptableObject
     public WallDirectionManager.Wall[] wallData = new WallDirectionManager.Wall[4];
     public float mapAngleMoveAmount;
     public int stageScale;
-
+    public StageData stageData;
 }

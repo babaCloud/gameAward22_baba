@@ -17,12 +17,14 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 006a192920d489747b86721c9b32b8aa, type: 2}
   - {fileID: 2100000, guid: 6dbd90ebaa1bb614e963a5ffa41fd4ba, type: 2}
   wallData:
-  - pos: {x: 1, y: 0}
-    colorNum: 0
   - pos: {x: -1, y: 0}
     colorNum: 0
+  - pos: {x: 1, y: 0}
+    colorNum: 0
   - pos: {x: 0, y: 1}
-    colorNum: 1
+    colorNum: 0
   - pos: {x: 0, y: -1}
     colorNum: 0
   mapAngleMoveAmount: 0
+  stageScale: 0
+  stageData: {fileID: 11400000, guid: b123eb5e48213fe4e9d9ac26f1ae5c18, type: 2}
